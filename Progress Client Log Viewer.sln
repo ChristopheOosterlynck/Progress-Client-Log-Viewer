@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progress Client Log Viewer", "test\Progress Client Log Viewer.csproj", "{A13FA0D3-AA13-4B4C-97F7-C69611929F33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progress Client Log Viewer", "progress-client-log-viewer\Progress Client Log Viewer.csproj", "{A13FA0D3-AA13-4B4C-97F7-C69611929F33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,6 @@ Global
 		{A13FA0D3-AA13-4B4C-97F7-C69611929F33}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = test\Progress Client Log Viewer.csproj
+		StartupItem = progress-client-log-viewer\Progress Client Log Viewer.csproj
 	EndGlobalSection
 EndGlobal
