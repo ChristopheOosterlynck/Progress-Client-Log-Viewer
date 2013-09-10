@@ -33,38 +33,20 @@ namespace test
 						calleeMap [lineNumber] = stackElement;
 					}
 				} else {
-
-					qariRegex = new Regex (".* Return from Main Block.*\\[(?<name>[a-zA-Z0-9_]+?)\\]");
+					qariRegex = new Regex (".* Return from (?<procedure>(Main Block|[a-zA-Z0-9_]+)?).*\\[(?<file>[a-zA-Z0-9_]+?)\\]");
 					mc = qariRegex.Matches (line);
 					if (mc.Count > 0) {
 						foreach (Match m in mc) {
-							string name = m.Groups ["name"].ToString ();
-							if (name == Stack.Peek ().Name) {
-								Stack.Pop ();
-							}
-						}
-					} else {
-						qariRegex = new Regex (".* Return from (?<name>[a-zA-Z0-9_]+?) ");
-						mc = qariRegex.Matches (line);
-						foreach (Match m in mc) {
-							string name = m.Groups ["name"].ToString ();
-							if (name == Stack.Peek ().Name) {
+							string procedure = m.Groups ["procedure"].ToString ();
+							string file = m.Groups ["file"].ToString ();
+							if ((procedure == "Main Block" && file == Stack.Peek ().Name)
+							    || procedure== Stack.Peek ().Name ) {
 								Stack.Pop ();
 							}
 						}
 					}
 				}
-				/*if (mc.Count == 1) {
-					CaptureCollection cc = mc [0].Captures;
-					Console.WriteLine("\t" + cc[0].ToString());
-				}*/
-
-				/*Console.WriteLine ("\t" + lineNumber);
-				foreach (StackElement stackElement in Stack) {
-					Console.WriteLine("\t" + stackElement.Name);
-				}*/
-
-						lineNumber++;
+				lineNumber++;
 			}
 		}
 	}
