@@ -7,17 +7,33 @@ namespace libprogressclientlog
 {
 	public class ClientLogParser
 	{
+		public static List<int> GetStackForLine (string filename, int lineNumber) {
+			Dictionary<int, int> parsed = Parse (filename);
 
-		public static Dictionary<int, StackElement> Parse (string filename)
+			if (!parsed.ContainsKey (lineNumber))
+				return new List<int> ();
+
+			List<int> stack = new List<int>();
+
+			int parentLine = lineNumber;
+			while (parentLine != 0) {
+				stack.Add (parentLine);
+				parentLine = parsed [parentLine];
+			}
+			stack.Reverse ();
+			return stack;
+		}
+
+		public static Dictionary<int, int> Parse (string filename)
 		{
 			Stack<StackElement> Stack = new Stack<StackElement>();
 			Stack.Push(new StackElement(0, "gp_prun"));
 
 			string[] lines = System.IO.File.ReadAllLines(filename);
 		
-			Dictionary<int, StackElement> calleeMap = new Dictionary<int, StackElement> ();
+			Dictionary<int, int> calleeMap = new Dictionary<int, int> ();
 
-			int lineNumber = 0;
+			int lineNumber = 1;
 			foreach (string line in lines)
 			{
 				// Use a tab to indent each line of the file.
@@ -26,9 +42,10 @@ namespace libprogressclientlog
 				if (mc.Count > 0) {
 					foreach (Match m in mc) {
 						string name = m.Groups ["name"].ToString ();
+						int parentLine = Stack.Peek ().parentLine;
 						StackElement stackElement = new StackElement (lineNumber, name);
 						Stack.Push (stackElement);
-						calleeMap [lineNumber] = stackElement;
+						calleeMap [lineNumber] = parentLine;
 					}
 				} else {
 					qariRegex = new Regex (".* Return from (?<procedure>(Main Block|[a-zA-Z0-9_]+)?).*\\[(?<file>[a-zA-Z0-9_]+?)\\]");

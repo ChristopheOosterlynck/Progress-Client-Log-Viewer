@@ -17,11 +17,11 @@ namespace libprogressclientlog
 			}
 		}
 
-		public int lineNumber = 0;
+		public int parentLine = 0;
 
 		public StackElement (int lineNumber, string name)
 		{
-			this.lineNumber = lineNumber;
+			this.parentLine = lineNumber;
 			this.Name = name;
 		}
 	}
